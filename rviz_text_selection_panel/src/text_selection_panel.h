@@ -33,6 +33,7 @@
 
 #include <rviz/panel.h>
 #include <std_msgs/String.h>
+#include <rviz_text_selection_panel_msgs/TextSelectionOptions.h>
 
 class QLineEdit;
 
@@ -70,6 +71,9 @@ namespace rviz_text_selection_panel
         virtual void load( const rviz::Config& config );
         virtual void save( rviz::Config config ) const;
 
+    Q_SIGNALS:
+        void setNewSelections(std::vector<std::string>);
+
     public Q_SLOTS:
         void setInputTopic( const QString& topic );
         void setOutputTopic( const QString& topic );
@@ -80,7 +84,7 @@ namespace rviz_text_selection_panel
 
 
     protected:
-        void updateSelectionStrings(std_msgs::String new_strs);
+        void updateSelectionStrings(rviz_text_selection_panel_msgs::TextSelectionOptions new_strs);
 
     protected:
 

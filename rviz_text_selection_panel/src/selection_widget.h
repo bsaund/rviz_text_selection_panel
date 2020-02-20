@@ -22,6 +22,9 @@ namespace rviz_text_selection_panel
         QLabel *display_label, *display_index;
         QLineEdit *increment_editor;
 
+        std::vector<std::string> text_options;
+        bool options_available;
+
         // We emit outputVelocity() whenever it changes.
     Q_SIGNALS:
         void requestNewFile(std::string filename);
@@ -33,6 +36,7 @@ namespace rviz_text_selection_panel
         void next();
         void prev();
         void updateIncrement();
+        void updateTextToSelect(std::vector<std::string> options);
     };
 
 } // end namespace rviz_text_selection_panel

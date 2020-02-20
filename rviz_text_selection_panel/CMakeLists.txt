@@ -9,7 +9,8 @@ add_compile_options(-std=c++14)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED
   rviz
-  roscpp)
+  roscpp
+  rviz_text_selection_panel_msgs)
 
 find_package(Qt5 ${rviz_QT_VERSION} EXACT REQUIRED Core Widgets)
 set(QT_LIBRARIES Qt5::Widgets)

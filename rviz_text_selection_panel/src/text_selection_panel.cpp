@@ -58,6 +58,8 @@ namespace rviz_text_selection_panel
         connect( output_topic_editor_, SIGNAL( editingFinished() ), this, SLOT( updateTopic() ));
         connect( input_topic_editor_, SIGNAL( editingFinished() ), this, SLOT( updateTopic() ));
         connect( output_timer, SIGNAL( timeout() ), this, SLOT( sendVel() ));
+        connect( this, SIGNAL( setNewSelections(std::vector<std::string>) ),
+                 selection_widget_, SLOT( updateTextToSelect(std::vector<std::string>) ));
 
         // Start the timer.
         output_timer->start( 100 );
@@ -73,8 +75,9 @@ namespace rviz_text_selection_panel
         selection_publisher_.publish(out_str);
     }
 
-    void TextSelectionPanel::updateSelectionStrings(std_msgs::String new_strs)
+    void TextSelectionPanel::updateSelectionStrings(rviz_text_selection_panel_msgs::TextSelectionOptions new_strs)
     {
+        setNewSelections(new_strs.options);
     }
 
     void TextSelectionPanel::updateTopic()

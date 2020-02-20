@@ -21,7 +21,8 @@ namespace rviz_text_selection_panel
     }; 
 
     SelectionWidget::SelectionWidget( QWidget* parent )
-        : QWidget( parent )
+        : QWidget( parent ),
+          options_available(false)
     {
         QVBoxLayout* layout = new QVBoxLayout(this);
 
@@ -34,7 +35,7 @@ namespace rviz_text_selection_panel
 
         
         
-        display_label = new QLabel("");
+        display_label = new QLabel("No option received yet");
         display_index = new QLabel(std::to_string(current_index).c_str());
         auto next_button = new QPushButton("next");
         auto prev_button = new QPushButton("prev");
@@ -60,11 +61,23 @@ namespace rviz_text_selection_panel
 
     }
 
+    void SelectionWidget::updateTextToSelect(std::vector<std::string> options)
+    {
+        if(options.size() <= 0)
+        {
+            return;
+        }
+        text_options = options;
+        options_available = true;
+        current_index = 0;
+        updateLabel();
+    }
+
 
     void SelectionWidget::next()
     {
         current_index += increment;
-        current_index = std::min<int>(current_index, tmp_filenames.size() - 1);
+        current_index = std::min<int>(current_index, text_options.size() - 1);
         updateLabel();
     }
 
@@ -84,9 +97,14 @@ namespace rviz_text_selection_panel
 
     void SelectionWidget::updateLabel()
     {
-        display_label->setText(tmp_filenames[current_index].c_str());
+        if(!options_available)
+        {
+            return;
+        }
+        
+        display_label->setText(text_options[current_index].c_str());
         display_index->setText(std::to_string(current_index).c_str());
-        Q_EMIT requestNewFile(tmp_filenames[current_index]);
+        Q_EMIT requestNewFile(text_options[current_index]);
     }
 
 
