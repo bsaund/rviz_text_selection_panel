@@ -1,0 +1,9 @@
+<library path="lib/librviz_text_selection_panel">
+  <class name="rviz_text_selection_panel/TextSelection"
+         type="rviz_text_selection_panel::TextSelectionPanel"
+         base_class_type="rviz::Panel">
+    <description>
+      My cool little panel
+    </description>
+  </class>
+</library>
