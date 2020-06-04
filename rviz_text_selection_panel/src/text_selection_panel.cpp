@@ -42,27 +42,13 @@ namespace rviz_text_selection_panel
         layout->addWidget( selection_widget_ );
         setLayout( layout );
 
-        // Create a timer for sending the output.  Motor controllers want to
-        // be reassured frequently that they are doing the right thing, so
-        // we keep re-sending velocities even when they aren't changing.
-        // 
-        // Here we take advantage of QObject's memory management behavior:
-        // since "this" is passed to the new QTimer as its parent, the
-        // QTimer is deleted by the QObject destructor when this TextSelectionPanel
-        // object is destroyed.  Therefore we don't need to keep a pointer
-        // to the timer.
-        QTimer* output_timer = new QTimer( this );
-
         // Next we make signal/slot connections.
         connect( selection_widget_, SIGNAL( requestNewFile( std::string )), this, SLOT( publishSelection(std::string) ));
         connect( output_topic_editor_, SIGNAL( editingFinished() ), this, SLOT( updateTopic() ));
         connect( input_topic_editor_, SIGNAL( editingFinished() ), this, SLOT( updateTopic() ));
-        connect( output_timer, SIGNAL( timeout() ), this, SLOT( sendVel() ));
+
         connect( this, SIGNAL( setNewSelections(std::vector<std::string>) ),
                  selection_widget_, SLOT( updateTextToSelect(std::vector<std::string>) ));
-
-        // Start the timer.
-        output_timer->start( 100 );
 
         // Make the control widget start disabled, since we don't start with an output topic.
         selection_widget_->setEnabled( false );
